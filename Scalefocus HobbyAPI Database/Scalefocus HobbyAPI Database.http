@@ -1,0 +1,6 @@
+@Scalefocus_HobbyAPI_Database_HostAddress = http://localhost:5053
+
+GET {{Scalefocus_HobbyAPI_Database_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
