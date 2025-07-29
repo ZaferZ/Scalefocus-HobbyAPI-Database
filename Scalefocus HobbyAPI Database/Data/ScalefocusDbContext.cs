@@ -7,6 +7,8 @@ namespace Scalefocus_HobbyAPI_Database.Data
     {
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
