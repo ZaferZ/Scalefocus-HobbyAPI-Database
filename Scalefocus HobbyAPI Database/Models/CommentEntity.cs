@@ -7,7 +7,7 @@ namespace CommentAPI.Entities
     public class CommentEntity
     {
         [Key]
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         [Required]
         public string Content { get; set; }
         [Required]
@@ -16,6 +16,6 @@ namespace CommentAPI.Entities
         [Required]
         public Guid UserID { get; set; }
         [Required]
-        public Guid EventID { get; set; }
+        public int EventID { get; set; }
     }
 }
