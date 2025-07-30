@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Scalefocus_HobbyAPI_Database.Models;
+using Scalefocus_HobbyAPI_Database.Models.Associations;
 
 namespace Scalefocus_HobbyAPI_Database.Data
 {
@@ -13,6 +14,8 @@ namespace Scalefocus_HobbyAPI_Database.Data
         public DbSet<Hobbies> Hobbies { get; set; }
 
         public DbSet<CommentEntity> Comments { get; set; }
+
+        public DbSet<EventParticipants> EventParticipants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +35,22 @@ namespace Scalefocus_HobbyAPI_Database.Data
                 .HasKey(h => h.Id);
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
+
+            // Many-to-many: Event <-> User via EventParticipants
+            modelBuilder.Entity<EventParticipants>()
+                .HasKey(ep => new { ep.EventId, ep.UserId });
+
+            modelBuilder.Entity<EventParticipants>()
+                .HasOne(ep => ep.Event)
+                .WithMany()
+                .HasForeignKey(ep => ep.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EventParticipants>()
+                .HasOne(ep => ep.User)
+                .WithMany()
+                .HasForeignKey(ep => ep.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Event.OwnerId references User.Id (Owner relationship)
             modelBuilder.Entity<Event>()
@@ -158,6 +177,37 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     UserId = user2Id,
                     Content = "Excited to learn painting.",
                     CreatedAt = new DateTime(2024, 7, 12, 12, 0, 0)
+                }
+            );
+
+            // Seed EventParticipants
+            modelBuilder.Entity<EventParticipants>().HasData(
+                new
+                {
+                    EventId = 1,
+                    UserId = user1Id,
+                    Role = ParticipantRole.Organizer,
+                    JoinedAt = new DateTime(2024, 6, 1, 9, 0, 0),
+                    ModifiedAt = (DateTime?)null,
+                    ModifiedBy = (int?)null
+                },
+                new
+                {
+                    EventId = 1,
+                    UserId = user2Id,
+                    Role = ParticipantRole.Attendee,
+                    JoinedAt = new DateTime(2024, 6, 3, 11, 0, 0),
+                    ModifiedAt = (DateTime?)null,
+                    ModifiedBy = (int?)null
+                },
+                new
+                {
+                    EventId = 2,
+                    UserId = user2Id,
+                    Role = ParticipantRole.Organizer,
+                    JoinedAt = new DateTime(2024, 7, 10, 10, 0, 0),
+                    ModifiedAt = (DateTime?)null,
+                    ModifiedBy = (int?)null
                 }
             );
         }
