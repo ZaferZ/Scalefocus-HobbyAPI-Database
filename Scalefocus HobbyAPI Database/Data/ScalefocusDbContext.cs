@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Scalefocus_HobbyAPI_Database.Models;
 
 namespace Scalefocus_HobbyAPI_Database.Data
@@ -10,6 +11,8 @@ namespace Scalefocus_HobbyAPI_Database.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Hobbies> Hobbies { get; set; }
+
+        public DbSet<CommentEntity> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,6 +28,10 @@ namespace Scalefocus_HobbyAPI_Database.Data
 
             modelBuilder.Entity<User>()
                 .HasKey(e => e.Id);
+            modelBuilder.Entity<Hobbies>()
+                .HasKey(h => h.Id);
+            modelBuilder.Entity<CommentEntity>()
+                .HasKey(c => c.Id);
 
             // Event.OwnerId references User.Id (Owner relationship)
             modelBuilder.Entity<Event>()
@@ -55,20 +62,20 @@ namespace Scalefocus_HobbyAPI_Database.Data
                 new User
                 {
                     Id = user1Id,
+                    Username = "alice123",
                     FirstName = "Alice",
                     LastName = "Smith",
                     Email = "alice.smith@example.com",
-                    PasswordHash = "hash1",
-                    PasswordSalt = "salt1"
+                    PasswordHash = "hash1"
                 },
                 new User
                 {
                     Id = user2Id,
+                    Username = "bob456",
                     FirstName = "Bob",
                     LastName = "Johnson",
                     Email = "bob.johnson@example.com",
-                    PasswordHash = "hash2",
-                    PasswordSalt = "salt2"
+                    PasswordHash = "hash2"
                 }
             );
 
@@ -107,6 +114,50 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     ModifiedAt = (DateTime?)null,
                     ModifiedBy = (Guid?)null,
                     Status = EventStatus.Scheduled
+                }
+            );
+            // Seed Hobbies
+            modelBuilder.Entity<Hobbies>().HasData(
+                new Hobbies
+                {
+                    Id = 1,
+                    Title = "Chess",
+                    Date = new DateTime(2024, 1, 1),
+                    Updated_at = 20240101
+                },
+                new Hobbies
+                {
+                    Id = 2,
+                    Title = "Painting",
+                    Date = new DateTime(2024, 2, 1),
+                    Updated_at = 20240201
+                }
+            );
+            // Seed Comments
+            modelBuilder.Entity<CommentEntity>().HasData(
+                new
+                {
+                    Id = 1,
+                    EventId = 1,
+                    UserId = user1Id,
+                    Content = "Looking forward to this event!",
+                    CreatedAt = new DateTime(2024, 6, 2, 10, 0, 0)
+                },
+                new
+                {
+                    Id = 2,
+                    EventId = 1,
+                    UserId = user2Id,
+                    Content = "Count me in!",
+                    CreatedAt = new DateTime(2024, 6, 3, 11, 0, 0)
+                },
+                new
+                {
+                    Id = 3,
+                    EventId = 2,
+                    UserId = user2Id,
+                    Content = "Excited to learn painting.",
+                    CreatedAt = new DateTime(2024, 7, 12, 12, 0, 0)
                 }
             );
         }

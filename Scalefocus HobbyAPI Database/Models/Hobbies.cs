@@ -6,12 +6,12 @@ namespace Scalefocus_HobbyAPI_Database.Models
     {
         [Key]
         [Required]
-        public int type_id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string title { get; set; }
+        public string Title { get; set; } = string.Empty;
         [Required]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
         [Required]
-        public int updated_at { get; set; }
+        public int Updated_at { get; set; }
     }
 }
