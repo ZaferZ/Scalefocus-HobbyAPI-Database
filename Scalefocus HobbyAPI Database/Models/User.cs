@@ -23,6 +23,8 @@ namespace Scalefocus_HobbyAPI_Database.Models
 
         public ICollection<Event> Events{ get; set; } = new List<Event>();
         public ICollection<Hobbies> Hobbies { get; set; } = new List<Hobbies>();
+
+        public ICollection<TaskEntity> Tasks { get; set; } = new List<TaskEntity>();
     }
 }
                  

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scalefocus_HobbyAPI_Database.Data;
 
@@ -11,9 +12,11 @@ using Scalefocus_HobbyAPI_Database.Data;
 namespace Scalefocus_HobbyAPI_Database.Migrations
 {
     [DbContext(typeof(ScalefocusDbContext))]
-    partial class ScalefocusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250731080022_add_task_user")]
+    partial class add_task_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,8 +238,6 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Comments");
 
@@ -571,15 +572,6 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.CommentEntity", b =>
-                {
-                    b.HasOne("Scalefocus_HobbyAPI_Database.Models.Event", null)
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

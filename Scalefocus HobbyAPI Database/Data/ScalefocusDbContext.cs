@@ -37,6 +37,12 @@ namespace Scalefocus_HobbyAPI_Database.Data
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
 
+            // Many-to-many: Task <-> User
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Tasks)
+                .WithMany(e => e.Users)
+                .UsingEntity<TaskUser>();
+
             // Many-to-many: Hobby <-> User
             modelBuilder.Entity<Hobbies>()
                 .HasMany(e => e.Users)
@@ -56,21 +62,28 @@ namespace Scalefocus_HobbyAPI_Database.Data
                 .WithMany(e => e.Events)
                 .UsingEntity<EventParticipants>();
 
-            // Event.OwnerId references User.Id (Owner relationship)
+            // CommentEntity.EventID references Event.Id 
+            modelBuilder.Entity<CommentEntity>()
+               .HasOne<Event>()
+               .WithMany()
+               .HasForeignKey(e => e.EventId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            // Event.OwnerId references User.Id 
             modelBuilder.Entity<Event>()
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(e => e.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Event.CreatedBy references User.Id (CreatedBy relationship)
+            // Event.CreatedBy references User.Id 
             modelBuilder.Entity<Event>()
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(e => e.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Event.ModifiedBy references User.Id (ModifiedBy relationship, nullable)
+            // Event.ModifiedBy references User.Id 
             modelBuilder.Entity<Event>()
                 .HasOne<User>()
                 .WithMany()
@@ -302,6 +315,28 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     HobbiesId = 1,
                     UserId = user2Id,
                     CreatedAt = new DateTime(2024, 1, 5, 12, 0, 0)
+                }
+            );
+
+            // Seed TaskUser
+            modelBuilder.Entity<TaskUser>().HasData(
+                new
+                {
+                    TasksId = 1,
+                    UserId = user1Id,
+                    IsCompleted = false,
+                    CreatedAt = new DateTime(2024, 6, 20, 10, 0, 0),
+                    ModifiedAt = (DateTime?)null,
+                    ModifiedBy = (Guid?)null
+                },
+                new
+                {
+                    TasksId = 2,
+                    UserId = user2Id,
+                    IsCompleted = false,
+                    CreatedAt = new DateTime(2024, 6, 21, 11, 0, 0),
+                    ModifiedAt = (DateTime?)null,
+                    ModifiedBy = (Guid?)null
                 }
             );
         }

@@ -16,5 +16,6 @@ namespace Scalefocus_HobbyAPI_Database.Models
         public DateTime ModifiedAt { get; set; }
 
         public ICollection<Event> Events { get; set; } = new List<Event>();
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
 }
