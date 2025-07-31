@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scalefocus_HobbyAPI_Database.Data;
 
@@ -11,9 +12,11 @@ using Scalefocus_HobbyAPI_Database.Data;
 namespace Scalefocus_HobbyAPI_Database.Migrations
 {
     [DbContext(typeof(ScalefocusDbContext))]
-    partial class ScalefocusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250731101838_add_user_roles")]
+    partial class add_user_roles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
