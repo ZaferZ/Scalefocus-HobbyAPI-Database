@@ -40,10 +40,14 @@ namespace Scalefocus_HobbyAPI_Database.Models
         public DateTime? ModifiedAt { get; set; }
         [ForeignKey("ModifiedBy")]
         public Guid? ModifiedBy { get; set; }
-        [ForeignKey("ParticipantIds")]
-        public List<Guid>? ParticipantIds { get; set; } = new();
+        public ICollection<Guid>? ParticipantIds { get; set; } = new List<Guid>();
         [Required]
         public EventStatus Status { get; set; } = EventStatus.Scheduled;
+
+
+        public ICollection<User>? Participants { get; set; } = new List<User>();
+
+        public ICollection<TaskEntity> Tasks { get; set; } = new List<TaskEntity>();
 
     }
 }

@@ -15,7 +15,8 @@ namespace Scalefocus_HobbyAPI_Database.Data
 
         public DbSet<CommentEntity> Comments { get; set; }
 
-        public DbSet<EventParticipants> EventParticipants { get; set; }
+        public DbSet<TaskEntity> Tasks { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,21 +37,18 @@ namespace Scalefocus_HobbyAPI_Database.Data
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
 
+            // Many-to-many: Event <-> Task via EventTask
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Tasks)
+                .WithMany(e => e.Events)
+                .UsingEntity<EventTasks>();
+
+
             // Many-to-many: Event <-> User via EventParticipants
-            modelBuilder.Entity<EventParticipants>()
-                .HasKey(ep => new { ep.EventId, ep.UserId });
-
-            modelBuilder.Entity<EventParticipants>()
-                .HasOne(ep => ep.Event)
-                .WithMany()
-                .HasForeignKey(ep => ep.EventId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<EventParticipants>()
-                .HasOne(ep => ep.User)
-                .WithMany()
-                .HasForeignKey(ep => ep.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Participants)
+                .WithMany(e => e.Events)
+                .UsingEntity<EventParticipants>();
 
             // Event.OwnerId references User.Id (Owner relationship)
             modelBuilder.Entity<Event>()
@@ -208,6 +206,74 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     JoinedAt = new DateTime(2024, 7, 10, 10, 0, 0),
                     ModifiedAt = (DateTime?)null,
                     ModifiedBy = (int?)null
+                }
+            );
+
+            // Seed Tasks
+            modelBuilder.Entity<TaskEntity>().HasData(
+                new
+                {
+                    Id = 1,
+                    Title = "Set up chess boards",
+                    Description = "Arrange all chess boards and pieces before the tournament starts.",
+                    IsCompleted = false,
+                    ModifiedAt = new DateTime(2024, 6, 30, 15, 0, 0)
+                },
+                new
+                {
+                    Id = 2,
+                    Title = "Prepare score sheets",
+                    Description = "Print and distribute score sheets for all matches.",
+                    IsCompleted = false,
+                    ModifiedAt = new DateTime(2024, 6, 30, 16, 0, 0)
+                },
+                new
+                {
+                    Id = 3,
+                    Title = "Buy painting supplies",
+                    Description = "Purchase watercolors, brushes, and paper for the workshop.",
+                    IsCompleted = false,
+                    ModifiedAt = new DateTime(2024, 8, 10, 10, 0, 0)
+                },
+                new
+                {
+                    Id = 4,
+                    Title = "Set up easels",
+                    Description = "Arrange easels and workspaces for participants.",
+                    IsCompleted = false,
+                    ModifiedAt = new DateTime(2024, 8, 14, 17, 0, 0)
+                }
+            );
+
+            // Seed EventTasks
+            modelBuilder.Entity<EventTasks>().HasData(
+                new
+                {
+                    EventId = 1,
+                    TasksId = 1,
+                    AddedAt = new DateTime(2024, 6, 15, 9, 0, 0),
+                    Role = TaskRole.NormalTask
+                },
+                new
+                {
+                    EventId = 1,
+                    TasksId = 2,
+                    AddedAt = new DateTime(2024, 6, 15, 9, 5, 0),
+                    Role = TaskRole.NormalTask
+                },
+                new
+                {
+                    EventId = 2,
+                    TasksId = 3,
+                    AddedAt = new DateTime(2024, 8, 12, 10, 0, 0),
+                    Role = TaskRole.ImportantTask
+                },
+                new
+                {
+                    EventId = 2,
+                    TasksId = 4,
+                    AddedAt = new DateTime(2024, 8, 14, 17, 5, 0),
+                    Role = TaskRole.RequiredTask
                 }
             );
         }

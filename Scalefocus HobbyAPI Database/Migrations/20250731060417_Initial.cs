@@ -17,32 +17,32 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EventID = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.ID);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Hobbies",
                 columns: table => new
                 {
-                    type_id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    updated_at = table.Column<int>(type: "int", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated_at = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Hobbies", x => x.type_id);
+                    table.PrimaryKey("PK_Hobbies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,9 +105,37 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EventParticipants",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    JoinedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventParticipants", x => new { x.EventId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_EventParticipants_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventParticipants_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Comments",
-                columns: new[] { "ID", "Content", "CreatedAt", "EventID", "UpdatedAt", "UserID" },
+                columns: new[] { "Id", "Content", "CreatedAt", "EventId", "UpdatedAt", "UserId" },
                 values: new object[,]
                 {
                     { 1, "Looking forward to this event!", new DateTime(2024, 6, 2, 10, 0, 0, 0, DateTimeKind.Unspecified), 1, null, new Guid("3bae1d94-7392-477e-922e-e656a8597661") },
@@ -117,7 +145,7 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Hobbies",
-                columns: new[] { "type_id", "date", "title", "updated_at" },
+                columns: new[] { "Id", "Date", "Title", "Updated_at" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chess", 20240101 },
@@ -142,6 +170,21 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                     { 2, 15, new DateTime(2024, 7, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), "Learn to paint with watercolors.", new DateTime(2024, 8, 15, 17, 0, 0, 0, DateTimeKind.Unspecified), 2, "Art Studio", null, null, new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), null, new DateTime(2024, 8, 15, 14, 0, 0, 0, DateTimeKind.Unspecified), 0, "Painting Workshop" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "EventParticipants",
+                columns: new[] { "EventId", "UserId", "JoinedAt", "ModifiedAt", "ModifiedBy", "Role" },
+                values: new object[,]
+                {
+                    { 1, new Guid("3bae1d94-7392-477e-922e-e656a8597661"), new DateTime(2024, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), null, null, 1 },
+                    { 1, new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), new DateTime(2024, 6, 3, 11, 0, 0, 0, DateTimeKind.Unspecified), null, null, 0 },
+                    { 2, new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), new DateTime(2024, 7, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), null, null, 1 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventParticipants_UserId",
+                table: "EventParticipants",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_CreatedBy",
                 table: "Events",
@@ -165,10 +208,13 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "EventParticipants");
 
             migrationBuilder.DropTable(
                 name: "Hobbies");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Users");

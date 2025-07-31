@@ -12,7 +12,7 @@ using Scalefocus_HobbyAPI_Database.Data;
 namespace Scalefocus_HobbyAPI_Database.Migrations
 {
     [DbContext(typeof(ScalefocusDbContext))]
-    [Migration("20250730140953_Initial")]
+    [Migration("20250731060417_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,13 +25,63 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.Associations.EventParticipants", b =>
+                {
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EventParticipants");
+
+                    b.HasData(
+                        new
+                        {
+                            EventId = 1,
+                            UserId = new Guid("3bae1d94-7392-477e-922e-e656a8597661"),
+                            JoinedAt = new DateTime(2024, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            Role = 1
+                        },
+                        new
+                        {
+                            EventId = 1,
+                            UserId = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"),
+                            JoinedAt = new DateTime(2024, 6, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            Role = 0
+                        },
+                        new
+                        {
+                            EventId = 2,
+                            UserId = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"),
+                            JoinedAt = new DateTime(2024, 7, 10, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            Role = 1
+                        });
+                });
+
             modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.CommentEntity", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -40,43 +90,43 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventID")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Comments");
 
                     b.HasData(
                         new
                         {
-                            ID = 1,
+                            Id = 1,
                             Content = "Looking forward to this event!",
                             CreatedAt = new DateTime(2024, 6, 2, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventID = 1,
-                            UserID = new Guid("3bae1d94-7392-477e-922e-e656a8597661")
+                            EventId = 1,
+                            UserId = new Guid("3bae1d94-7392-477e-922e-e656a8597661")
                         },
                         new
                         {
-                            ID = 2,
+                            Id = 2,
                             Content = "Count me in!",
                             CreatedAt = new DateTime(2024, 6, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventID = 1,
-                            UserID = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f")
+                            EventId = 1,
+                            UserId = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f")
                         },
                         new
                         {
-                            ID = 3,
+                            Id = 3,
                             Content = "Excited to learn painting.",
                             CreatedAt = new DateTime(2024, 7, 12, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventID = 2,
-                            UserID = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f")
+                            EventId = 2,
+                            UserId = new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f")
                         });
                 });
 
@@ -178,40 +228,40 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
 
             modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.Hobbies", b =>
                 {
-                    b.Property<int>("type_id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("type_id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("title")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("updated_at")
+                    b.Property<int>("Updated_at")
                         .HasColumnType("int");
 
-                    b.HasKey("type_id");
+                    b.HasKey("Id");
 
                     b.ToTable("Hobbies");
 
                     b.HasData(
                         new
                         {
-                            type_id = 1,
-                            date = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            title = "Chess",
-                            updated_at = 20240101
+                            Id = 1,
+                            Date = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Chess",
+                            Updated_at = 20240101
                         },
                         new
                         {
-                            type_id = 2,
-                            date = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            title = "Painting",
-                            updated_at = 20240201
+                            Id = 2,
+                            Date = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Painting",
+                            Updated_at = 20240201
                         });
                 });
 
@@ -264,6 +314,21 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                             PasswordHash = "hash2",
                             Username = "bob456"
                         });
+                });
+
+            modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.Associations.EventParticipants", b =>
+                {
+                    b.HasOne("Scalefocus_HobbyAPI_Database.Models.Event", null)
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Scalefocus_HobbyAPI_Database.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Scalefocus_HobbyAPI_Database.Models.Event", b =>
