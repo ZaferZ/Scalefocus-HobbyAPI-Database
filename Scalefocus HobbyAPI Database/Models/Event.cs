@@ -1,45 +1,51 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Scalefocus_HobbyAPI_Database.Models
 {
-        public enum EventStatus
-        {
-            Scheduled = 0,
-            Cancelled = 1,
-            Completed = 2
-        }
-        public class Event
-        {
-            [Key]
-            public Guid Id { get; set; }
-            [Required]
-            public string? Title { get; set; }
-            [Required]
-            public string? Description { get; set; }
-            [Required]
-            public Guid OwnerId { get; set; }
-            [Required]
-            public Guid HobbyId { get; set; }
-            [Required]
-            public DateTime StartDate { get; set; }
-            [Required]
-            public DateTime EndDate { get; set; }
-            [Required]
-            public string? Location { get; set; }
-            [Required]
-            public int Capacity { get; set; }
-            [Required]
-            public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-            [Required]
-            public Guid CreatedBy { get; set; }
-            public DateTime? ModifiedAt { get; set; }
-            public Guid? ModifiedBy { get; set; }
-            public List<Guid>? ParticipantIds { get; set; } = new();
-            [Required]
-            public EventStatus Status { get; set; } = EventStatus.Scheduled;
-
-        }
+    public enum EventStatus
+    {
+        Scheduled = 0,
+        Cancelled = 1,
+        Completed = 2
     }
+    public class Event
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Title { get; set; } = string.Empty;
+        [Required]
+        public string Description { get; set; } = string.Empty;
+        [ForeignKey("OwnerId")]
+        [Required]
+        public Guid OwnerId { get; set; }
+        [ForeignKey("HobbyId")]
+        [Required]
+        public int HobbyId { get; set; }
+        [Required]
+        public DateTime StartDate { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
+        [Required]
+        public string Location { get; set; } = string.Empty;
+        [Required]
+        public int Capacity { get; set; }
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [ForeignKey("CreatedBy")]
+        [Required]
+        public Guid CreatedBy { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+        [ForeignKey("ModifiedBy")]
+        public Guid? ModifiedBy { get; set; }
+        [ForeignKey("ParticipantIds")]
+        public List<Guid>? ParticipantIds { get; set; } = new();
+        [Required]
+        public EventStatus Status { get; set; } = EventStatus.Scheduled;
+
+    }
+}
 
 
