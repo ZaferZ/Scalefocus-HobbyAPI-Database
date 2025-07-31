@@ -16,6 +16,7 @@ namespace Scalefocus_HobbyAPI_Database.Data
 
         public DbSet<TaskEntity> Tasks { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,6 +36,12 @@ namespace Scalefocus_HobbyAPI_Database.Data
                 .HasKey(h => h.Id);
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
+
+            // Many-to-many: User <-> User
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Roles)
+                .WithMany(e => e.Users)
+                .UsingEntity<UserRole>();
 
             // Many-to-many: Task <-> User
             modelBuilder.Entity<User>()
@@ -113,6 +120,20 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     PasswordHash = "hash2"
                 }
             );
+
+            // Seed Roles
+            modelBuilder.Entity<Role>()
+                .HasData(
+                new Role { Id = 1, Name = "admin"}, // admin role
+                new Role { Id = 2, Name = "user"} // default user role
+                );
+
+            // Seed UserRoles
+            modelBuilder.Entity<UserRole>()
+                .HasData(
+                new UserRole { RoleId = 1, UserId = user1Id }, // first user assigned as admin
+                new UserRole { RoleId = 2, UserId = user2Id }  // second user as regular user
+                );
 
             // Seed Events
             modelBuilder.Entity<Event>().HasData(
