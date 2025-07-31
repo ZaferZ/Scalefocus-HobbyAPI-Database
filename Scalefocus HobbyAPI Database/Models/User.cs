@@ -22,6 +22,7 @@ namespace Scalefocus_HobbyAPI_Database.Models
         public string PasswordHash { get; set; } = string.Empty;
 
         public ICollection<Event> Events{ get; set; } = new List<Event>();
+        public ICollection<Hobbies> Hobbies { get; set; } = new List<Hobbies>();
     }
 }
                  

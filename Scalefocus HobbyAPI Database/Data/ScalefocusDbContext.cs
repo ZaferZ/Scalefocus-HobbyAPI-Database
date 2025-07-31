@@ -37,6 +37,12 @@ namespace Scalefocus_HobbyAPI_Database.Data
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
 
+            // Many-to-many: Hobby <-> User
+            modelBuilder.Entity<Hobbies>()
+                .HasMany(e => e.Users)
+                .WithMany(e => e.Hobbies)
+                .UsingEntity<HobbyUser>();
+
             // Many-to-many: Event <-> Task via EventTask
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.Tasks)
@@ -274,6 +280,28 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     TasksId = 4,
                     AddedAt = new DateTime(2024, 8, 14, 17, 5, 0),
                     Role = TaskRole.RequiredTask
+                }
+            );
+
+            // Seed HobbyUser
+            modelBuilder.Entity<HobbyUser>().HasData(
+                new
+                {
+                    HobbiesId = 1,
+                    UserId = user1Id,
+                    CreatedAt = new DateTime(2024, 1, 2, 10, 0, 0)
+                },
+                new
+                {
+                    HobbiesId = 2,
+                    UserId = user2Id,
+                    CreatedAt = new DateTime(2024, 2, 2, 11, 0, 0)
+                },
+                new
+                {
+                    HobbiesId = 1,
+                    UserId = user2Id,
+                    CreatedAt = new DateTime(2024, 1, 5, 12, 0, 0)
                 }
             );
         }
