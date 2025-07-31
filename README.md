@@ -57,90 +57,92 @@ Eventit uses the following:
 ### Event
 | Column Name   | Data Type        | Constraints                  | Description                                  |
 | ------------- | ---------------- | ---------------------------- | -------------------------------------------- |
-| id          | INT              | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for the event              |
-| title       | VARCHAR(255)     | NOT NULL                     | Title of the event                           |
-| description | TEXT             |                              | Detailed information about the event         |
-| owner_id    | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who created the event         |
-| hobby_id    | INT              | FOREIGN KEY → hobbies(id)  | ID referencing the related hobby             |
-| start_date  | DATETIME         | NOT NULL                     | Event starting date and time                 |
-| end_date    | DATETIME         |                              | Event ending date and time                   |
-| location    | VARCHAR(255)     |                              | Location where the event takes place         |
-| capacity    | INT              |                              | Maximum number of participants allowed       |
-| created_at  | DATETIME         | DEFAULT CURRENT_TIMESTAMP   | Timestamp when the event was created         |
-| created_by  | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who created the record        |
-| modified_at | DATETIME         | NULLABLE                     | Last modification timestamp                  |
-| modified_by | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who last modified the record  |
-| status      | ENUM             | DEFAULT 'Scheduled'          | Current status of the event (e.g. Scheduled) |
+| Id          | INT              | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for the event              |
+| Ttitle       | VARCHAR(MAX)     | NOT NULL                     | Title of the event                           |
+| Description | TEXT             |                              | Detailed information about the event         |
+| OwnerId    | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)    | ID of the user who created the event         |
+| HobbyId    | INT              | FOREIGN KEY → Hobbies(Id)  | ID referencing the related hobby             |
+| StartDate  | DATETIME         | NOT NULL                     | Event starting date and time                 |
+| EndDate   | DATETIME         |                              | Event ending date and time                   |
+| Location    | VARCHAR(MAX)     |                              | Location where the event takes place         |
+| Capacity    | INT              |                              | Maximum number of participants allowed       |
+| CreatedAt  | DATETIME         | DEFAULT CURRENT_TIMESTAMP   | Timestamp when the event was created         |
+| CreatedBy  | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)    | ID of the user who created the record        |
+| ModifiedAt| DATETIME         | NULLABLE                     | Last modification timestamp                  |
+| ModifiedBy | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)    | ID of the user who last modified the record  |
+| Status      | INT(ENUM)             | DEFAULT 'Scheduled'          | Current status of the event (e.g. Scheduled) |
 ### User
-| Column Name   | Data Type        | Constraints                  | Description                                  |
-| ------------- | ---------------- | ---------------------------- | -------------------------------------------- |
-| id          | INT              | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for the event              |
-| title       | VARCHAR(255)     | NOT NULL                     | Title of the event                           |
-| description | TEXT             |                              | Detailed information about the event         |
-| owner_id    | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who created the event         |
-| hobby_id    | INT              | FOREIGN KEY → hobbies(id)  | ID referencing the related hobby             |
-| start_date  | DATETIME         | NOT NULL                     | Event starting date and time                 |
-| end_date    | DATETIME         |                              | Event ending date and time                   |
-| location    | VARCHAR(255)     |                              | Location where the event takes place         |
-| capacity    | INT              |                              | Maximum number of participants allowed       |
-| created_at  | DATETIME         | DEFAULT CURRENT_TIMESTAMP   | Timestamp when the event was created         |
-| created_by  | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who created the record        |
-| modified_at | DATETIME         | NULLABLE                     | Last modification timestamp                  |
-| modified_by | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)    | ID of the user who last modified the record  |
-| status      | ENUM             | DEFAULT 'Scheduled'          | Current status of the event (e.g. Scheduled) |
+| Column Name     | Data Type        | Constraints      | Description                    |
+| --------------- | ---------------- | ---------------- | ------------------------------ |
+| Id            | UNIQUEIDENTIFIER | PRIMARY KEY      | Unique identifier for the user |
+|  Username    | NVARCHAR(MAX)      | UNIQUE, NOT NULL | User's chosen username         |
+| FirstName    | NVARCHAR(MAX)     | NOT NULL         | User's first name              |
+| LastName     | NVARCHAR(MAX)     | NOT NULL         | User's last name               |
+| Email         | NVARCHAR(MAX)     | UNIQUE, NOT NULL | User's email address           |
+| PasswordHash | NVARCHAR(MAX)            | NOT NULL         | Hashed password                |
+
 ### Hobby
 | Column Name  | Data Type    | Constraints | Description                                |
 | ------------ | ------------ | ----------- | ------------------------------------------ |
-| id         | INT          | PRIMARY KEY | Unique identifier for the hobby            |
-| title      | VARCHAR(100) | NOT NULL    | Name/title of the hobby                    |
-| date       | DATETIME     |             | When the hobby was added/created           |
-| updated_at | INT          |             | Last updated date (e.g. yyyymmdd format) |
+| Id         | INT          | PRIMARY KEY | Unique identifier for the hobby            |
+| Title      | VARCHAR(MAX) | NOT NULL    | Name/title of the hobby                    |
+| Date       | DATETIME     |             | When the hobby was added/created           |
+| UpdatedAt | DATETIME          |             | Last updated date (e.g. yyyymmdd format) |
 ### Task
 | Column Name    | Data Type    | Constraints   | Description                               |
 | -------------- | ------------ | ------------- | ----------------------------------------- |
-| id           | INT          | PRIMARY KEY   | Unique identifier for the task            |
-| title        | VARCHAR(255) | NOT NULL      | Short name/title of the task              |
-| description  | TEXT         |               | Details of what the task involves         |
-| is_completed | BOOLEAN      | DEFAULT FALSE | Whether the task has been completed       |
-| modified_at  | DATETIME     |               | Timestamp when the task was last modified |
+| Id           | INT          | PRIMARY KEY   | Unique identifier for the task            |
+| Title        | NVARCHAR(MAX) | NOT NULL      | Short name/title of the task              |
+| Description  | NVARCHAR(MAX)         |               | Details of what the task involves         |
+| IsCompleted | BIT(BOOLEAN      | DEFAULT FALSE | Whether the task has been completed       |
+| ModifiedAt  | DATETIME     |               | Timestamp when the task was last modified |
 ### Comment
 | Column Name  | Data Type        | Constraints                | Description                              |
 | ------------ | ---------------- | -------------------------- | ---------------------------------------- |
-| id         | INT              | PRIMARY KEY                | Unique identifier for the comment        |
-| event_id   | INT              | FOREIGN KEY → events(id) | The event the comment is associated with |
-| user_id    | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)  | The user who posted the comment          |
-| content    | TEXT             | NOT NULL                   | Text content of the comment              |
-| created_at | DATETIME         | DEFAULT CURRENT_TIMESTAMP | Time when the comment was created        |
+| Id         | INT              | PRIMARY KEY                | Unique identifier for the comment        |
+| EventId   | INT              | FOREIGN KEY → Events(Id) | The event the comment is associated with |
+| UserId    | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)  | The user who posted the comment          |
+| Content    | NVARCHAR(MAX)             | NOT NULL                   | Text content of the comment              |
+| CreatedAt | DATETIME         | DEFAULT CURRENT_TIMESTAMP | Time when the comment was created        |
+
+
 ### Participant
-| Column Name  | Data Type        | Constraints                | Description                                 |
-| ------------ | ---------------- | -------------------------- | ------------------------------------------- |
-| id         | INT              | PRIMARY KEY                | Unique identifier for the participant entry |
-| event_id   | INT              | FOREIGN KEY → events(id) | Associated event                            |
-| user_id    | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)  | User participating in the event             |
-| content    | TEXT             |                            | Optional message from the participant       |
-| created_at | DATETIME         | DEFAULT CURRENT_TIMESTAMP | Time the participation entry was created    |
+| Column Name   | Data Type        | Constraints                            | Description                                |
+| ------------- | ---------------- | -------------------------------------- | ------------------------------------------ |
+| EventId    | INT              | FOREIGN KEY →  Events(id)            | ID of the related event                    |
+| UserId     | UNIQUEIDENTIFIER | FOREIGN KEY →  Users(id)              | ID of the user who joined the event        |
+| Role       | INT              | NOT NULL                               | Role of the user in the event (e.g., enum) |
+| JoinedAt   | DATETIME2(7)     | DEFAULT CURRENT\_TIMESTAMP             | Timestamp when the user joined the event   |
+| ModifiedAt | DATETIME2(7)     | NULLABLE                               | Last time this relationship was modified   |
+| ModifiedBy | UNIQUEIDENTIFIER  | FOREIGN KEY → Users(id) *(optional)* | User who last modified the record          |
+
 ### Event task
 | Column Name | Data Type | Constraints                     | Description                                       |
 | ----------- | --------- | ------------------------------- | ------------------------------------------------- |
-| event_id  | INT       | FOREIGN KEY → events(id)      | ID of the associated event                        |
-| tasks_id  | INT       | FOREIGN KEY → event_tasks(id) | ID of the associated task                         |
-| added_at  | DATETIME  | DEFAULT CURRENT_TIMESTAMP      | Timestamp when the task was linked to the event   |
-| role      | ENUM      | DEFAULT 'NormalTask'            | Role/type of the task in the context of the event |
+| EventId  | INT       | FOREIGN KEY → events(id)      | ID of the associated event                        |
+| TasksId  | INT       | FOREIGN KEY → event_tasks(id) | ID of the associated task                         |
+| AddedAt  | DATETIME  | DEFAULT CURRENT_TIMESTAMP      | Timestamp when the task was linked to the event   |
+| Role      | INT(ENUM)    | DEFAULT 'NormalTask'            | Role/type of the task in the context of the event |
+| ModifiedAt| DATETIME         | NULLABLE                     | Last modification timestamp                  |
+| ModifiedBy | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)    | ID of the user who last modified the record  |
+
 ### Hobby User
 | Column Name  | Data Type        | Constraints                 | Description                           |
 | ------------ | ---------------- | --------------------------- | ------------------------------------- |
-| hobbies_id | INT              | FOREIGN KEY → hobbies(id) | The hobby the user is associated with |
-| user_id    | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)   | The user who has this hobby           |
-| created_at | DATETIME         | DEFAULT CURRENT_TIMESTAMP  | When this user-hobby link was created |
+| HobbiesId | INT              | FOREIGN KEY → Hobbies(Id) | The hobby the user is associated with |
+| UserId    | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)   | The user who has this hobby           |
+| CreatedAt | DATETIME         | DEFAULT CURRENT_TIMESTAMP  | When this user-hobby link was created |
+
 ### Task User
 | Column Name    | Data Type        | Constraints                          | Description                                  |
 | -------------- | ---------------- | ------------------------------------ | -------------------------------------------- |
-| tasks_id     | INT              | FOREIGN KEY → event_tasks(id)      | ID of the task being assigned                |
-| user_id      | UNIQUEIDENTIFIER | FOREIGN KEY → users(id)            | User responsible for completing the task     |
-| is_completed | BOOLEAN          | DEFAULT FALSE                        | Whether the assigned task has been completed |
-| created_at   | DATETIME         | DEFAULT CURRENT_TIMESTAMP           | When the assignment was created              |
-| modified_at  | DATETIME         | NULLABLE                             | Last time the assignment was updated         |
-| modified_by  | UNIQUEIDENTIFIER | FOREIGN KEY → users(id) (nullable) | User who last modified this assignment       |
+| TasksId     | INT              | FOREIGN KEY → EventTasks(Id)      | ID of the task being assigned                |
+| UserId      | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)            | User responsible for completing the task     |
+| IsCompleted | BIT(BOOLEAN)          | DEFAULT FALSE                        | Whether the assigned task has been completed |
+| CreatedAt   | DATETIME         | DEFAULT CURRENT_TIMESTAMP           | When the assignment was created              |
+| ModifiedAt  | DATETIME         | NULLABLE                             | Last time the assignment was updated         |
+| ModifiedBy  | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id) (nullable) | User who last modified this assignment       |
+
 ## License
 
 MIT
