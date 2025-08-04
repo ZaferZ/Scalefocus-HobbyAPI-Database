@@ -37,7 +37,7 @@ namespace Scalefocus_HobbyAPI_Database.Data
             modelBuilder.Entity<CommentEntity>()
                 .HasKey(c => c.Id);
 
-            // Many-to-many: User <-> User
+            // Many-to-many: User <-> Roles
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Roles)
                 .WithMany(e => e.Users)
@@ -74,6 +74,12 @@ namespace Scalefocus_HobbyAPI_Database.Data
                .WithMany()
                .HasForeignKey(e => e.EventId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            //RefreshToken.UserId references User.Id (one to one)
+            modelBuilder.Entity<User>()
+                .HasOne(e => e.RefreshToken)
+                .WithOne(e => e.User)
+                .HasForeignKey<RefreshToken>(e => e.UserId);
 
             // Event.OwnerId references User.Id 
             modelBuilder.Entity<Event>()

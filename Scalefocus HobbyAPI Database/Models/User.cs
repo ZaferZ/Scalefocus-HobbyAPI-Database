@@ -21,10 +21,11 @@ namespace Scalefocus_HobbyAPI_Database.Models
 
         public string PasswordHash { get; set; } = string.Empty;
 
+        public RefreshToken? RefreshToken { get; set; }
+
         public ICollection<Role> Roles { get; set; } = new List<Role>();
         public ICollection<Event> Events{ get; set; } = new List<Event>();
         public ICollection<Hobbies> Hobbies { get; set; } = new List<Hobbies>();
-
         public ICollection<TaskEntity> Tasks { get; set; } = new List<TaskEntity>();
     }
 }
