@@ -71,6 +71,7 @@ Eventit uses the following:
 | ModifiedAt| DATETIME         | NULLABLE                     | Last modification timestamp                  |
 | ModifiedBy | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)    | ID of the user who last modified the record  |
 | Status      | INT(ENUM)             | DEFAULT 'Scheduled'          | Current status of the event (e.g. Scheduled) |
+
 ### User
 | Column Name     | Data Type        | Constraints      | Description                    |
 | --------------- | ---------------- | ---------------- | ------------------------------ |
@@ -88,6 +89,7 @@ Eventit uses the following:
 | Title      | VARCHAR(MAX) | NOT NULL    | Name/title of the hobby                    |
 | Date       | DATETIME     |             | When the hobby was added/created           |
 | UpdatedAt | DATETIME          |             | Last updated date (e.g. yyyymmdd format) |
+
 ### Task
 | Column Name    | Data Type    | Constraints   | Description                               |
 | -------------- | ------------ | ------------- | ----------------------------------------- |
@@ -96,6 +98,7 @@ Eventit uses the following:
 | Description  | NVARCHAR(MAX)         |               | Details of what the task involves         |
 | IsCompleted | BIT(BOOLEAN      | DEFAULT FALSE | Whether the task has been completed       |
 | ModifiedAt  | DATETIME     |               | Timestamp when the task was last modified |
+
 ### Comment
 | Column Name  | Data Type        | Constraints                | Description                              |
 | ------------ | ---------------- | -------------------------- | ---------------------------------------- |
@@ -104,7 +107,6 @@ Eventit uses the following:
 | UserId    | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id)  | The user who posted the comment          |
 | Content    | NVARCHAR(MAX)             | NOT NULL                   | Text content of the comment              |
 | CreatedAt | DATETIME         | DEFAULT CURRENT_TIMESTAMP | Time when the comment was created        |
-
 
 ### Participant
 | Column Name   | Data Type        | Constraints                            | Description                                |
@@ -142,6 +144,20 @@ Eventit uses the following:
 | CreatedAt   | DATETIME         | DEFAULT CURRENT_TIMESTAMP           | When the assignment was created              |
 | ModifiedAt  | DATETIME         | NULLABLE                             | Last time the assignment was updated         |
 | ModifiedBy  | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id) (nullable) | User who last modified this assignment       |
+
+###User Role
+| Column Name | Data Type        | Constraints               | Description                   |
+| ----------- | ---------------- | ------------------------- | ----------------------------- |
+| UserId   | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id) | The user assigned a role      |
+| RoleId   | INT              | FOREIGN KEY → Roles(Id)| The role assigned to the user |
+
+###Roles
+| Column Name | Data Type | Constraints      | Description                         |
+| ----------- | --------- | ---------------- | ----------------------------------- |
+| Id       | INT       | PRIMARY KEY      | Unique identifier for the role      |
+| Name     | VARCHAR   | UNIQUE, NOT NULL | Name of the role (e.g. Admin, User) |
+
+
 
 ## License
 
