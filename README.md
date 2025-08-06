@@ -145,13 +145,13 @@ Eventit uses the following:
 | ModifiedAt  | DATETIME         | NULLABLE                             | Last time the assignment was updated         |
 | ModifiedBy  | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id) (nullable) | User who last modified this assignment       |
 
-###User Role
+### User Role
 | Column Name | Data Type        | Constraints               | Description                   |
 | ----------- | ---------------- | ------------------------- | ----------------------------- |
 | UserId   | UNIQUEIDENTIFIER | FOREIGN KEY → Users(Id) | The user assigned a role      |
 | RoleId   | INT              | FOREIGN KEY → Roles(Id)| The role assigned to the user |
 
-###Roles
+### Roles
 | Column Name | Data Type | Constraints      | Description                         |
 | ----------- | --------- | ---------------- | ----------------------------------- |
 | Id       | INT       | PRIMARY KEY      | Unique identifier for the role      |
