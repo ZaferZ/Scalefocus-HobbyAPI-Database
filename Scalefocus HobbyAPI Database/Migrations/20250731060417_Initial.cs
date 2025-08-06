@@ -157,8 +157,8 @@ namespace Scalefocus_HobbyAPI_Database.Migrations
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "PasswordHash", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("3bae1d94-7392-477e-922e-e656a8597661"), "alice.smith@example.com", "Alice", "Smith", "hash1", "alice123" },
-                    { new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), "bob.johnson@example.com", "Bob", "Johnson", "hash2", "bob456" }
+                    { new Guid("3bae1d94-7392-477e-922e-e656a8597661"), "alice.smith@example.com", "Alice", "Smith", "AQAAAAIAAYagAAAAEIPLj+04XhjFVnPoJ7Yj41Zr9pGJTQsD2XCP3A1vBHDE8eqh+Wp1xVx+302UXlTa2A==", "alice123" },
+                    { new Guid("7e61f925-b7d6-4e69-bbc2-a6695e2e424f"), "bob.johnson@example.com", "Bob", "Johnson", "AQAAAAIAAYagAAAAEAttPoNcavN+RpTa3jvTdprfS1m+/raixNVvoKgdXRWmel2JozBdAln+pFH1aUSuxQ==", "bob456" }
                 });
 
             migrationBuilder.InsertData(

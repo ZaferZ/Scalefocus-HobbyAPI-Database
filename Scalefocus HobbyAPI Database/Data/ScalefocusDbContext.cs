@@ -18,6 +18,10 @@ namespace Scalefocus_HobbyAPI_Database.Data
 
         public DbSet<Role> Roles { get; set; }
 
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -114,7 +118,7 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     FirstName = "Alice",
                     LastName = "Smith",
                     Email = "alice.smith@example.com",
-                    PasswordHash = "hash1"
+                    PasswordHash = "AQAAAAIAAYagAAAAEIPLj+04XhjFVnPoJ7Yj41Zr9pGJTQsD2XCP3A1vBHDE8eqh+Wp1xVx+302UXlTa2A==" // admin
                 },
                 new User
                 {
@@ -123,7 +127,7 @@ namespace Scalefocus_HobbyAPI_Database.Data
                     FirstName = "Bob",
                     LastName = "Johnson",
                     Email = "bob.johnson@example.com",
-                    PasswordHash = "hash2"
+                    PasswordHash = "AQAAAAIAAYagAAAAEAttPoNcavN+RpTa3jvTdprfS1m+/raixNVvoKgdXRWmel2JozBdAln+pFH1aUSuxQ==" //string
                 }
             );
 
