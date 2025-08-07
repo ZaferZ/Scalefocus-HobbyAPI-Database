@@ -22,6 +22,8 @@ namespace Scalefocus_HobbyAPI_Database.Data
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -78,6 +80,13 @@ namespace Scalefocus_HobbyAPI_Database.Data
                .WithMany()
                .HasForeignKey(e => e.EventId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            //ResetPasswordToken.UserId references User.Id
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.PasswordResetTokens)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
 
             //RefreshToken.UserId references User.Id (one to one)
             modelBuilder.Entity<User>()
