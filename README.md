@@ -47,7 +47,15 @@ Eventit uses the following:
 
 - _EventAPI_ - Works when a user has both loged in and has selected a hobby. First a GET request is send to show all the events related to th hobbies of the user. Also if the user is an owner of an event he can do an UPDATE request to edit the event. The user can also call a CREATE request to make a new event. Check out [EventApi](https://github.com/ZaferZ/EventAPI) for more info.
 
- - _CommentAPI_ ....
+ - _CommentAPI_ - CommentAPI is a service for managing comments associated with events and users. The API supports standard CRUD operations with JWT authentication.
+Endpoints:
+* GET /api/Comments: Retrieve all comments
+*	GET /api/Comments/{id}: Get comment by ID
+* POST /api/Comments: Create new comment (requires user/admin role)
+* PUT /api/Comments/{id}: Update existing comment (requires user/admin role, users can only update their own)
+* DELETE /api/Comments/{id}: Delete comment (users can delete their own, admins can delete any)
+* GET /api/Comments/user/{userId}: Get all comments by a specific user
+* GET /api/Comments/event/{eventId}: Get all comments for a specific event
  
  - _TaskAPI_ ....
  
