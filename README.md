@@ -45,7 +45,7 @@ Eventit uses the following:
 ## Development
 - _HobbyAPI_ - Works from the moment a created user logs in. This will have 2 outcomes. In one of the outcomes the user is prompted to select a hobby from a selection made beforehand form an admin(sport,fitnes,cooking...) .This will trigger when the user doesn't have an alocated hobby in the HobbyUser table with a GET request. If so then a CREATE request will be sent to the DB. The second outcome is when the GET request is valid and the user has selected hobby before.
 
-- _EventAPI_ - Works when a user has both loged in and has selected a hobby. First a GET request is send to show all the events related to th hobbies of the user. Also if the user is an owner of an event he can do an UPDATE request to edit the event. The user can also call a CREATE request to make a new event.
+- _EventAPI_ - Works when a user has both loged in and has selected a hobby. First a GET request is send to show all the events related to th hobbies of the user. Also if the user is an owner of an event he can do an UPDATE request to edit the event. The user can also call a CREATE request to make a new event. Check out [EventApi]([(https://github.com/ZaferZ/EventAPI)]) for more info.
 
  - _CommentAPI_ ....
  
