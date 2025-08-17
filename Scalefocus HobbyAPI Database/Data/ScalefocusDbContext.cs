@@ -79,6 +79,13 @@ namespace Scalefocus_HobbyAPI_Database.Data
                .HasForeignKey(e => e.EventId)
                .OnDelete(DeleteBehavior.Restrict);
 
+            //CommentEntity.UserID references User.Id
+            modelBuilder.Entity<CommentEntity>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             //RefreshToken.UserId references User.Id (one to one)
             modelBuilder.Entity<User>()
                 .HasOne(e => e.RefreshToken)
