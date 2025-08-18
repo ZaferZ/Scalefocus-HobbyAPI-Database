@@ -57,8 +57,13 @@ Endpoints:
 * GET /api/Comments/user/{userId}: Get all comments by a specific user
 * GET /api/Comments/event/{eventId}: Get all comments for a specific event
  
- - _TaskAPI_ ....
- 
+ - _TaskAPI_ - When an event is created the Owner can add some tasks that have to be completed before the event starts.Whenever a user joins certain event tasks are assigned to them. From there they can see the tasks, complete them and mark them as finished. The Owner of the event can create new tasks, update already existing ones and delete tasks that are no longer needed.
+Endpoints:
+* GET /api/ToDoTask: Retrieve all comments
+*	GET /api/ToDoTask/{id}: Get Task by ID
+* POST /api/ToDoTask: Create new Task (requires admin role)
+* PUT /api/ToDoTask: Update existing Task (requires user/admin role, users can only update their own)
+* DELETE /api/ToDoTask/{id}: Delete Task (requires admin role)
  - _UserAPI_ - The person can make a CREATE request to have an account made. He then can log in with a LOGIN request that will check the password and the user and generate a JWT. 
 
 # Database
